@@ -1,44 +1,30 @@
-# ExDoc
-
-[![Build Status](https://secure.travis-ci.org/elixir-lang/ex_doc.svg?branch=master "Build Status")][build-status]
-[![Coverage Status](https://coveralls.io/repos/github/elixir-lang/ex_doc/badge.svg?branch=master)][coverage-status]
-[![Ebert](https://ebertapp.io/github/elixir-lang/ex_doc.svg)](https://ebertapp.io/github/elixir-lang/ex_doc)
+# ExDoc Elm Frontend (work in progress)
 
 ExDoc is a tool to generate documentation for your Elixir projects. In case you are looking for documentation for Elixir itself, [check out Elixir's website][elixir-lang].
 
-## Using ExDoc with Mix
+This fork contains a rewrite of ExDoc to port all javascript and markdown concerns to a new Elm application.
 
-To use ExDoc in your Mix projects, first add ExDoc as a dependency:
+The Elm application must be compiled and the resulting js file (elm_main.js) placed in the html formatters distribution assets folder (this file is already in place when you pull the repo, this step needs to be performed only if you edit the elm application code). After this is done, clean and re-compile the project with mix and use it as normal (as specified in the Using ExDoc Via Command Line section below)
 
-```elixir
-def deps do
-  [{:ex_doc, "~> 0.14", only: :dev, runtime: false}]
-end
+```bash
+cd ex_doc/elm_frontend
+elm-make src/Main.elm --output=../priv/ex_doc/formatter/html/assets/dist/elm_main.js
+ 
 ```
 
-After adding ExDoc as a dependency, run `mix deps.get` to install it.
+## Status as of this commit
+Currently the Elm application renders a sidebar
+component in place of the sidebar_template in formatter/html/templates.
 
-ExDoc will automatically pull in information from your projects, like the application and version. However, you may want to set `:name`, `:source_url` and `:homepage_url` to have a nicer output from ExDoc, such as:
+The Elm sidebar at current retains all the stylings and class names of
+the previous template but the functionality implement consists only of
+opening and closing the sidebar, and selecting the category. Rendering
+the nodes is not yet implemented as of this commit. Animations are also
+not implemented.
 
-```elixir
-def project do
-  [app: :my_app,
-   version: "0.1.0-dev",
-   deps: deps(),
+The Elm project should be compiled and placed in
+priv/ex_doc/formatter/html/assets/dist. This will be integrated into the build system in a future commit.
 
-   # Docs
-   name: "MyApp",
-   source_url: "https://github.com/USER/PROJECT",
-   homepage_url: "http://YOUR_PROJECT_HOMEPAGE",
-   docs: [main: "MyApp", # The main page in the docs
-          logo: "path/to/logo.png",
-          extras: ["README.md"]]]
-end
-```
-
-Now you are ready to generate your project documentation with `mix docs`.
-
-To see all options available when generating docs, run `mix help docs`. You may have to run `mix docs` or `mix compile` first.
 
 ## Using ExDoc via command line
 
