@@ -51,21 +51,21 @@ var languages = [
 // Tasks
 // -----
 
-gulp.task('buildHighlight', function (done) {
-  exec('npm install', {
-    cwd: './node_modules/highlight.js'
-  }, function (err, stdout, stderr) {
-    if (err) return done(err)
-
-    exec('node tools/build.js -n ' + languages.join(' '), {
-      cwd: './node_modules/highlight.js'
-    }, function (err, stdout, stderr) {
-      if (err) return done(err)
-
-      done()
-    })
-  })
-})
+// gulp.task('buildHighlight', function (done) {
+//     exec(
+//         'npm install',
+//         {cwd: './node_modules/highlight.js'},
+//         function (err, stdout, stderr) {
+//             if (err) return done(err);
+//             exec(
+//                 'node tools/build.js -n ' + languages.join(' '),
+//                 {cwd: './node_modules/highlight.js'},
+//                 function (err, stdout, stderr) {
+//                     if (err) return done(err);
+//                     done();
+//                 });
+//         });
+// });
 
 gulp.task('clean:html', function () {
   return del(distPath.html)
@@ -82,12 +82,20 @@ gulp.task('clean', function (done) {
   )
 })
 
-gulp.task('javascript:html', ['buildHighlight'], function () {
-  return javascript({src: 'assets/js/app.js', dest: distPath.html})
+// gulp.task('javascript:html', ['buildHighlight'], function () {
+//   return javascript({src: 'assets/js/app.js', dest: distPath.html})
+// })
+
+// gulp.task('javascript:epub', ['buildHighlight'], function () {
+//   return javascript({src: 'assets/js/epub.js', dest: distPath.epub})
+// })
+
+gulp.task('javascript:html', function () {
+    return javascript({src: 'assets/js/app.js', dest: distPath.html})
 })
 
-gulp.task('javascript:epub', ['buildHighlight'], function () {
-  return javascript({src: 'assets/js/epub.js', dest: distPath.epub})
+gulp.task('javascript:epub', function () {
+    return javascript({src: 'assets/js/epub.js', dest: distPath.epub})
 })
 
 gulp.task('javascript', function (done) {

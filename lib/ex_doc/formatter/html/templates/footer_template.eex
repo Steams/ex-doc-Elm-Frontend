@@ -16,5 +16,9 @@
 </section>
 </div>
   <script src="<%= asset_rev config.output, "dist/app*.js" %>"></script>
+    <script>
+        var node = document.getElementById('elm_sidebar');
+        var app = Elm.Main.embed(node,sidebarNodes);
+    </script>
   </body>
 </html>

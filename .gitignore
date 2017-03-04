@@ -8,3 +8,32 @@ erl_crash.dump
 /npm-debug.log
 /test/fixtures/umbrella/_build
 /ex_doc
+
+*.org
+/elm_frontend/app/
+
+# Logs
+logs
+*.log
+npm-debug.log*
+
+# Grunt intermediate storage (http://gruntjs.com/creating-plugins#storing-task-files)
+.grunt
+
+# Dependency directories
+node_modules/
+jspm_packages/
+elm-stuff/
+tests/elm-stuff/
+
+# Optional npm cache directory
+.npm
+
+# Optional eslint cache
+.eslintcache
+
+# Optional REPL history
+.node_repl_history
+
+# Output of 'npm pack'
+*.tgz
