@@ -13,6 +13,7 @@ var LessPluginAutoPrefix = require('less-plugin-autoprefix')
 var Server = require('karma').Server
 var webpack = require('webpack-stream')
 var exec = require('child_process').exec
+var elm = require('gulp-elm')
 
 var config = require('./assets/webpack.config')
 
@@ -66,6 +67,14 @@ var languages = [
 //                 });
 //         });
 // });
+
+gulp.task('elm-init', elm.init);
+
+gulp.task('elm', ['elm-init'], function(){
+    return gulp.src('elm_frontend/src/**/*.elm')
+        .pipe(elm.bundle('elm_main.js'))
+        .pipe(gulp.dest('priv/ex_doc/formatter/html/assets/dist/'));
+});
 
 gulp.task('clean:html', function () {
   return del(distPath.html)

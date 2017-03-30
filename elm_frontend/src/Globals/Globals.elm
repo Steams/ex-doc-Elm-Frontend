@@ -11,7 +11,7 @@ type alias Extra = {id : String, title : String, group : String, headers : List 
 
 type alias Header = {id : String, anchor : String}
 
-type alias Exception = {id : String, title : String, functions : List Function}
+type alias Exception = {id : String, title : String, functions : Maybe (List Function)}
 
 type alias Function = {id : String, anchor : String}
 

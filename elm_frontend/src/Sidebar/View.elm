@@ -15,11 +15,19 @@ sidebar_fullList model =
 
 sidebar_list_item : Category -> Html Msg -> (Category -> Html Msg)
 sidebar_list_item category content =
-    \selectedCategory ->
-        li [class <| if (selectedCategory == category) then "selected" else "", onClick <| SelectCategory category]
-            [
-             content
-            ]
+    let
+        status : Category -> String
+        status selected =
+            if selected == category then
+                "selected"
+            else
+                ""
+    in
+        \selectedCategory ->
+            li [class <| status selectedCategory, onClick <| SelectCategory category]
+                [
+                 content
+                ]
 
 sidebar_listNav : Model -> Html Msg
 sidebar_listNav model =
@@ -58,17 +66,13 @@ sidebar_listNav model =
     in
         ul [class "sidebar-listNav"]
             [
-                (sidebar_list_item EXTRAS <| extras_list_link )
-                    <| category
+                category |> sidebar_list_item EXTRAS extras_list_link
 
-              , (sidebar_list_item MODULES <| (modules_list_link model.modules))
-                     <| category
+              , category |> sidebar_list_item MODULES (modules_list_link model.modules)
 
-              , (sidebar_list_item EXCEPTIONS <| (exceptions_list_link model.exceptions))
-                     <| category
+              , category |> sidebar_list_item EXCEPTIONS (exceptions_list_link model.exceptions)
 
-              , (sidebar_list_item PROTOCOLS <| (protocols_list_link model.protocols))
-                     <| category
+              , category |> sidebar_list_item PROTOCOLS (protocols_list_link model.protocols)
             ]
 
 sidebar_search : Html Msg
@@ -89,6 +93,7 @@ sidebar_header =
               , h2 [class "sidebar-projectVersion"] [text "todo: find out how to add header info to generated json."]
              ]
         ]
+    -- TODO add back in logo 
     -- <%= if config.logo do %>
     --   <img src="<%= logo_path(config) %>" alt="<%= config.project %>" class="sidebar-projectImage">
     -- <% end %>
@@ -128,18 +133,22 @@ sidebar_toggle_style isOpen =
              ("transform","translateX(0px)")
             ]
 
-sidebar_toggle : Model -> Html Msg
-sidebar_toggle model =
-    button [ class "sidebar-toggle", onClick ToggleSidebar, sidebar_toggle_style model.isOpen ]
+sidebar_toggle : Bool -> Html Msg
+sidebar_toggle isOpen =
+    button [ class "sidebar-toggle", onClick ToggleSidebar, sidebar_toggle_style isOpen ]
         [
          i [class "icon-menu"] []
         ]
 
 view : Model -> Html Msg
 view model =
-    div [class "main"]
-        [
-          sidebar_toggle model
-         ,if (model.isOpen) then sidebar_top model else div [][]
-         ,sidebar_content model
-        ]
+    let top = if model.isOpen
+              then sidebar_top model
+              else div [][]
+    in
+        div [class "main"]
+            [
+             sidebar_toggle model.isOpen
+            ,top
+            ,sidebar_content model
+            ]
